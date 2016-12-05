@@ -6,8 +6,23 @@ import {
   View,
   Image
 } from 'react-native';
+import {
+  createRouter,
+  NavigationProvider,
+  StackNavigation,
+} from '@exponent/ex-navigation';
 
 class App extends React.Component {
+  render (){
+    return(
+      <NavigationProvider router={Router}>
+        <StackNavigation initialRoute={Router.getRoute('home')}/>
+      </NavigationProvider>
+    )
+  }
+}
+
+class HomeScreen extends React.Component {
   render() {
     const ImageUri = 'http://images.undergroundfilmjournal.com/wp-images/andy_warhol_filming.jpg';
     return (
@@ -16,17 +31,22 @@ class App extends React.Component {
           style={styles.wallpaper}
           source={{uri: ImageUri}}
         />
-        <Text style={{
-          color: 'white',
-          fontWeight: 'bold',
-          backgroundColor: 'transparent',
-          fontSize: 20,
-          marginBottom: 20,
-        }}>Hi Ryan!</Text>
+        <View style={[StyleSheet.absoluteFill, {backgroundColor: 'rgba(0,0,0,0.7)'}]}>
+        <View style={[StyleSheet.absoluteFill, {alignItems: 'center', justifyContent: 'center', backgroundColor: 'transparent'}]}>
+        <Text style={styles.headline}>
+          Hi Ryan!
+        </Text>
+        </View>
+        </View>
       </View>
     );
   }
 }
+
+const Router = createRouter( () => ({
+  home: () => HomeScreen,
+  gallery: () => GalleryScreen
+}));
 
 const styles = StyleSheet.create({
   container: {
@@ -42,6 +62,13 @@ const styles = StyleSheet.create({
     bottom: 0,
     right: 0,
   },
+  headline: {
+    color: 'white',
+    fontWeight: 'bold',
+    backgroundColor: 'transparent',
+    fontSize: 20,
+    marginBottom: 20,
+  }
 });
 
 Exponent.registerRootComponent(App);
